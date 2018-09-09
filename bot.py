@@ -93,6 +93,7 @@ async def kill(message, args):
 	else:
 		if 'Lord' in [str(role) for role in message.author.roles]:
 			await client.send_message(message.channel, strings['func.kill.success'])
+			print('Stopping bot...')
 			client.logout()
 			client.close()
 		else:

@@ -55,7 +55,7 @@ async def help(message, *args):
 	elif len(args) == 1 or len(args) == 2 and args[0] in prefixes:
 		if len(args) == 2:
 			args = [args[1]]
-		print('Getting help for', args[1] + '.')
+		print('Getting help for', args[0] + '.')
 		if args[0] in functions.keys():
 			function = args[0]
 			embed = discord.Embed(title='Помощь по ' + args[0], color=0x008800)

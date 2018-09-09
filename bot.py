@@ -43,7 +43,7 @@ class Command:
 		functions[name] = self
 
 # Functions go here
-async def help(message, *args):
+async def help(message, args):
 	print(args)
 	if len(args) == 0:
 		print('Listing commands.')
@@ -73,7 +73,7 @@ async def help(message, *args):
 		print('Too many arguments!')
 		await client.send_message(message.channel, 'Я твоя не понимать, ты говорить коротко!')
 
-async def kill(message, *args):
+async def kill(message, args):
 	if len(args) > 0:
 		await client.send_message(message.channel, 'Ты чего, совсем обалдел? Не только пытаешься меня убить, но и грузишь всем этим своим бредом?')
 	else:

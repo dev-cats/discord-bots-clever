@@ -70,7 +70,6 @@ async def help(message, *args):
 		print('Too many arguments!')
 		await client.send_message(message.channel, 'Я твоя не понимать, ты говорить коротко!')
 
-
 async def kill(message, *args):
 	if len(args) > 0:
 		await client.send_message(message.channel, 'Ты чего, совсем обалдел? Не только пытаешься меня убить, но и грузишь всем этим своим бредом?')

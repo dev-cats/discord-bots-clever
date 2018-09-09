@@ -48,7 +48,7 @@ async def help(message, args):
 	if len(args) == 0:
 		print('Listing commands.')
 		embed = discord.Embed(title='Помощь по боту', color=0x008800)
-		embed.set_author('Minecraft Бот')
+		embed.set_author(name='Minecraft Бот')
 		embed.set_thumbnail(url="https://d1u5p3l4wpay3k.cloudfront.net/minecraft_ru_gamepedia/b/bc/Wiki.png?version=26fd08a888d0d1a33fb2808ebc8678e9")
 		for function in functions:
 			embed.add_field(name='`' + function.syntax + '`', value=function.sdesc, inline=True)
@@ -62,7 +62,7 @@ async def help(message, args):
 		if arg in functions.keys():
 			function = arg
 			embed = discord.Embed(title='Помощь по ' + arg, color=0x008800)
-			embed.set_author('Minecraft Бот')
+			embed.set_author(name='Minecraft Бот')
 			embed.set_thumbnail(url="https://d1u5p3l4wpay3k.cloudfront.net/minecraft_ru_gamepedia/b/bc/Wiki.png?version=26fd08a888d0d1a33fb2808ebc8678e9")
 			embed.add_field(name='`' + function.syntax + '`', value=function.desc, inline=True)
 			await client.send_message(message.channel, embed=embed)

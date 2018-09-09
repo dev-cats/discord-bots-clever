@@ -50,8 +50,8 @@ async def help(message, args):
 		embed = discord.Embed(title='Помощь по боту', color=0x008800)
 		embed.set_author(name='Minecraft Бот')
 		embed.set_thumbnail(url="https://d1u5p3l4wpay3k.cloudfront.net/minecraft_ru_gamepedia/b/bc/Wiki.png?version=26fd08a888d0d1a33fb2808ebc8678e9")
-		for function in functions:
-			embed.add_field(name='`' + function.syntax + '`', value=function.sdesc, inline=True)
+		for key in functions:
+			embed.add_field(name='`' + functions[key].syntax + '`', value=functions[key].sdesc, inline=True)
 		await client.send_message(message.channel, embed=embed)
 	elif len(args) == 1 or len(args) == 2 and args[0] in prefixes:
 		if len(args) == 2:
@@ -61,8 +61,6 @@ async def help(message, args):
 		print('Getting help for', arg + '.')
 		if arg in functions.keys():
 			function = function[arg]
-			print(functions)
-			print('loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooool')
 			embed = discord.Embed(title='Помощь по ' + arg, color=0x008800)
 			embed.set_author(name='Minecraft Бот')
 			embed.set_thumbnail(url="https://d1u5p3l4wpay3k.cloudfront.net/minecraft_ru_gamepedia/b/bc/Wiki.png?version=26fd08a888d0d1a33fb2808ebc8678e9")

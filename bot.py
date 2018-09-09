@@ -78,6 +78,7 @@ async def kill(message, args):
 	else:
 		if 'Lord' in [str(role) for role in message.author.roles]:
 			await client.send_message(message.channel, 'Я вернусь! :thumbsup:')
+			client.logout()
 			client.close()
 		else:
 			await client.send_message(message.channel, 'Да кто ты такой?')

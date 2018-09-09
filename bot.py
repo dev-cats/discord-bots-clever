@@ -54,18 +54,20 @@ async def help(message, *args):
 		await client.send_message(message.channel, embed=embed)
 	elif len(args) == 1 or len(args) == 2 and args[0] in prefixes:
 		if len(args) == 2:
-			args = [args[1]]
-		print('Getting help for', args[0] + '.')
-		if args[0] in functions.keys():
-			function = args[0]
-			embed = discord.Embed(title='Помощь по ' + args[0], color=0x008800)
+			arg = args[1]
+		else:
+			arg = args[0]
+		print('Getting help for', arg + '.')
+		if arg in functions.keys():
+			function = arg
+			embed = discord.Embed(title='Помощь по ' + arg, color=0x008800)
 			embed.set_author('Minecraft Бот')
 			embed.set_thumbnail(url="https://d1u5p3l4wpay3k.cloudfront.net/minecraft_ru_gamepedia/b/bc/Wiki.png?version=26fd08a888d0d1a33fb2808ebc8678e9")
 			embed.add_field(name='`' + function.syntax + '`', value=function.desc, inline=True)
 			await client.send_message(message.channel, embed=embed)
 		else:
 			print('Unknown command.')
-			await client.send_message(message.channel, 'Я не знаю, что такое `' + prefixes[0] + ' ' + args[0] + '`!')
+			await client.send_message(message.channel, 'Я не знаю, что такое `' + prefixes[0] + ' ' + arg + '`!')
 	else:
 		print('Too many arguments!')
 		await client.send_message(message.channel, 'Я твоя не понимать, ты говорить коротко!')

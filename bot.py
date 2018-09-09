@@ -61,6 +61,7 @@ async def help(message, args):
 		print('Getting help for', arg + '.')
 		if arg in functions.keys():
 			function = function[arg]
+			print(function)
 			embed = discord.Embed(title='Помощь по ' + arg, color=0x008800)
 			embed.set_author(name='Minecraft Бот')
 			embed.set_thumbnail(url="https://d1u5p3l4wpay3k.cloudfront.net/minecraft_ru_gamepedia/b/bc/Wiki.png?version=26fd08a888d0d1a33fb2808ebc8678e9")

@@ -22,7 +22,7 @@ async def on_message(message):
 		await asyncio.sleep(1)            											# more logging
 		if len(content):
 			if content[0] in functions.keys():
-				await functions[content[1]].func(message, content[2:] if len(content) > 2 else [])  # call the function
+				await functions[content[0]].func(message, content[2:] if len(content) > 2 else [])  # call the function
 			else:
 				await client.send_message(message.channel, 'Я не понимаю, чего ты от меня хочешь!')
 		else:

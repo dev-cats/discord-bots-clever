@@ -44,6 +44,7 @@ class Command:
 
 # Functions go here
 async def help(message, *args):
+	print(args)
 	if len(args) == 0:
 		print('Listing commands.')
 		embed = discord.Embed(title='Помощь по боту', color=0x008800)

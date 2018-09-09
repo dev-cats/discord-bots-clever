@@ -13,16 +13,16 @@ async def on_ready():                                   											# some loggin
 
 @client.event
 async def on_message(message):
-	text = message.content.lower()                      											# parse message
-	content = text.split()
-	if content[0] in prefixes:
+	print(message.server, '/', message.channel, '/', message.author, 'wrote', message.content)
+	if any([message.content.startswith(i) for i in prefixes]):
+		text = message.content.lower()                      											# parse message
+		content = text.split()[1:]
 		await asyncio.sleep(0.2)                            										# make it feel natural
 		await client.send_typing(message.channel)
-		await asyncio.sleep(1)
-		print("Recieved message:", text)                											# more logging
-		if len(content) > 1:
-			if content[1] in functions.keys():
-				await functions[content[1]].func(message, content[2:] if len(content) > 2 else [])	# call the function
+		await asyncio.sleep(1)            											# more logging
+		if len(content):
+			if content[0] in functions.keys():
+				await functions[content[1]].func(message, content[2:] if len(content) > 2 else [])  # call the function
 			else:
 				await client.send_message(message.channel, 'Я не понимаю, чего ты от меня хочешь!')
 		else:

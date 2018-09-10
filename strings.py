@@ -5,7 +5,6 @@ class TextNode:
                 code = 'self.' + i.replace(' ', '_') + ' = ' + 'TextNode(' + str(d[i]) + ')'
             else:
                 code = 'self.' + i.replace(' ', '_') + ' = ' + 'r"' + d[i] + '"'
-            print(code)
             exec(code)
 
 strings = TextNode({

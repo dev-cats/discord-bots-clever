@@ -5,5 +5,5 @@ def print(*args, **kwargs):
     print_stdout(s, kwargs['end'])
 while True:
     with open('bot.py') as f:
-        exec(f)
+        exec(f.read())
     print('Restarting bot...')

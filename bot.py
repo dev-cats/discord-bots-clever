@@ -51,9 +51,8 @@ class Command:
 		self.name = name
 		self.func = func
 		if syntax is None:
-			self.syntax = prefixes[0] + ' ' + name
-		else:
-			self.syntax = syntax
+			syntax = name
+		self.syntax = prefixes[0] + ' ' + name
 		self.sdesc = sdesc
 		self.desc = desc
 		functions[name] = self
@@ -119,8 +118,8 @@ strings = {
 
 # Commands go here
 prefixes = ['!bot']
-Command("help", help, syntax='!minecraft help [команда]', sdesc='Этот список или помощь по команде.', desc='Показывает список всех команд или подробное описание указаной команды (как то, что вы сейчас читаете).')
-Command("kill", kill, syntax='!minecraft kill', sdesc='Остановить бота.', desc='Останавливает бота. Доступно только @Owner.')
+Command("help", help, syntax='help [команда]', sdesc='Этот список или помощь по команде.', desc='Показывает список всех команд или подробное описание указаной команды (как то, что вы сейчас читаете).')
+Command("kill", kill, syntax='kill', sdesc='Остановить бота.', desc='Останавливает бота. Доступно только @Owner.')
 # Commands end
 
 client.run(token)

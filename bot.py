@@ -25,12 +25,12 @@ async def on_message(message):
 			if content[0] in functions.keys():
 				await functions[content[0]].func(message, content[2:] if len(content) > 2 else [])  # call the function
 			else:
-				await client.send_message(message.channel, strings['func.unknown'])
+				await client.send_message(message.channel, strings['func']['unknown'])
 		else:
-			await client.send_message(message.channel, strings['func.none'])
+			await client.send_message(message.channel, strings['func']['none'])
 
 class Command:
-	def __init__(self, name, func, syntax=None, sdesc=strings['sdesc.none'], desc=strings['desc.none']):
+	def __init__(self, name, func, syntax=None, sdesc=strings['sdesc']['none'], desc=strings['desc']['none']):
 		if name in functions.keys():																# check for repeating 
 			raise KeyError()
 		self.name = name
@@ -46,9 +46,9 @@ class Command:
 async def help(message, args):
 	if len(args) == 0:
 		log('Listing commands.')
-		embed = discord.Embed(title=strings['func.help.title'], color=0x008800)
-		embed.set_author(name=strings['embed.author'])
-		embed.set_thumbnail(url=strings['embed.thumbnail'])
+		embed = discord.Embed(title=strings['func']['help']['title'], color=0x008800)
+		embed.set_author(name=strings['embed']['author'])
+		embed.set_thumbnail(url=strings['embed']['thumbnail'])
 		for key in functions:
 			embed.add_field(name='`' + functions[key].syntax + '`', value=functions[key].sdesc, inline=True)
 		await client.send_message(message.channel, embed=embed)
@@ -60,27 +60,27 @@ async def help(message, args):
 		log('Getting help for', arg + '.')
 		if arg in functions.keys():
 			function = function[arg]
-			embed = discord.Embed(title=strings['func.help.specific.title'] + arg, color=0x008800)
-			embed.set_author(name=strings['embed.author'])
-			embed.set_thumbnail(url=strings['embed.thumbnail'])
+			embed = discord.Embed(title=strings['func']['help']['specific']['title'] + arg, color=0x008800)
+			embed.set_author(name=strings['embed']['author'])
+			embed.set_thumbnail(url=strings['embed']['thumbnail'])
 			embed.add_field(name='`' + function.syntax + '`', value=function.desc, inline=True)
 			await client.send_message(message.channel, embed=embed)
 		else:
 			log('Unknown command.')
-			await client.send_message(message.channel, strings['func.help.specific.unknown'] % (prefixes[0], arg))
+			await client.send_message(message.channel, strings['func']['help']['specific']['unknown'] % (prefixes[0], arg))
 	else:
 		log('Too many arguments!')
-		await client.send_message(message.channel, strings['func.help.overflow'])
+		await client.send_message(message.channel, strings['func']['help']['overflow'])
 
 async def kill(message, args):
 	if len(args) > 0:
-		await client.send_message(message.channel, strings['func.kill.overflow'])
+		await client.send_message(message.channel, strings['func']['kill']['overflow'])
 	else:
 		if 'Lord' in [str(role) for role in message.author.roles]:
-			await client.send_message(message.channel, strings['func.kill.success'])
+			await client.send_message(message.channel, strings['func']['kill']['success'])
 			client.close()
 		else:
-			await client.send_message(message.channel, strings['func.kill.failure'])
+			await client.send_message(message.channel, strings['func']['kill']['failure'])
 # Functions end
 
 # Strings go here

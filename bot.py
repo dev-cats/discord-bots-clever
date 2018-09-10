@@ -73,7 +73,7 @@ async def help(message, args):
 		log('Too many arguments!')
 		await client.send_message(message.channel, 'Я твоя не понимать, ты говорить коротко!')
 
-async def kill(message, args):
+async def restart(message, args):
 	if len(args) > 0:
 		await client.send_message(message.channel, 'Ты чего, совсем обалдел? Не только пытаешься меня убить, но и грузишь всем этим своим бредом?')
 	else:
@@ -87,7 +87,7 @@ async def kill(message, args):
 # Commands go here
 prefixes = ['!bot']
 Command("help", help, syntax='!minecraft help [команда]', sdesc='Этот список или помощь по команде.', desc='Показывает список всех команд или подробное описание указаной команды (как то, что вы сейчас читаете).')
-Command("kill", kill, syntax='!minecraft kill', sdesc='Остановить бота.', desc='Останавливает бота. Доступно только @Owner.')
+Command("restart", restart, syntax='!minecraft restart', sdesc='Перезапуск бота.', desc='Перезапускает бота. Доступно только `@Owner`.')
 # Commands end
 
 client.run(token)

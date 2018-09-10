@@ -4,6 +4,21 @@ import asyncio
 
 client = discord.Client()                              												# get client
 functions = {}                                          											# define the functions dict
+strings = {
+    'desc.none':'No description for this command provided.',
+    'embed.author':'Bot',
+    'embed.thumbnail':'https://discordapp.com/assets/2c21aeda16de354ba5334551a883b481.png',
+    'func.help.overflow':'Too many arguments!',
+    'func.help.title':'Bot Help',
+    'func.help.specific.title':'Help for %s',
+    'func.help.specific.unknown':'`%s %s` is not a function!',
+    'func.kill.failure':'You don\'t have permissions to do this.',
+    'func.kill.overflow':'Too many arguments!',
+    'func.kill.success':'The bot was stopped.',
+    'func.none':'Please, specify a function.',
+    'func.unknown':'This is not a function',
+    'sdesc.none':'No description.'
+}
 
 @client.event
 async def on_ready():                                   											# some logging
@@ -15,29 +30,32 @@ async def on_ready():                                   											# some loggin
 async def on_message(message):
 	print(message.server, '/', message.channel, '/', message.author, 'wrote', message.content)
 	if any([message.content.startswith(i) for i in prefixes]):
-		text = message.content.lower()                      											# parse message
+		text = message.content.lower()                      										# parse message
 		content = text.split()[1:]
 		await asyncio.sleep(0.2)                            										# make it feel natural
 		await client.send_typing(message.channel)
-		await asyncio.sleep(1)            											# more logging
+		await asyncio.sleep(1)            															# more logging
 		if len(content):
 			if content[0] in functions.keys():
+<<<<<<< HEAD
 				await functions[content[0]].func(message, content[2:] if len(content) > 2 else [])  # call the function
+=======
+				await functions[content[1]].func(message, content[1:] if len(content) > 2 else [])  # call the function
+>>>>>>> a4ae28cc2b35be337a92213666bc7a7100055e67
 			else:
-				await client.send_message(message.channel, 'Я не понимаю, чего ты от меня хочешь!')
+				await client.send_message(message.channel, strings['func.unknown'])
 		else:
-			await client.send_message(message.channel, 'Что?')
+			await client.send_message(message.channel, strings['func.unspecified'])
 
 class Command:
-	def __init__(self, name, func, syntax=None, sdesc='Not provided.', desc='No description for the command provided.'):
+	def __init__(self, name, func, syntax=None, sdesc=strings['sdesc.none'], desc=strings['desc.none']):
 		if name in functions.keys():																# check for repeating 
 			raise KeyError()
 		self.name = name
 		self.func = func
 		if syntax is None:
-			self.syntax = prefixes[0] + ' ' + name
-		else:
-			self.syntax = syntax
+			syntax = name
+		self.syntax = prefixes[0] + ' ' + syntax
 		self.sdesc = sdesc
 		self.desc = desc
 		functions[name] = self
@@ -46,9 +64,9 @@ class Command:
 async def help(message, args):
 	if len(args) == 0:
 		print('Listing commands.')
-		embed = discord.Embed(title='Помощь по боту', color=0x008800)
-		embed.set_author(name='Minecraft Бот')
-		embed.set_thumbnail(url="https://d1u5p3l4wpay3k.cloudfront.net/minecraft_ru_gamepedia/b/bc/Wiki.png?version=26fd08a888d0d1a33fb2808ebc8678e9")
+		embed = discord.Embed(title=strings['func.help.title'], color=0x008800)
+		embed.set_author(name=strings['embed.author'])
+		embed.set_thumbnail(url=strings['embed.thumbnail'])
 		for key in functions:
 			embed.add_field(name='`' + functions[key].syntax + '`', value=functions[key].sdesc, inline=True)
 		await client.send_message(message.channel, embed=embed)
@@ -59,34 +77,54 @@ async def help(message, args):
 			arg = args[0]
 		print('Getting help for', arg + '.')
 		if arg in functions.keys():
-			function = function[arg]
-			embed = discord.Embed(title='Помощь по ' + arg, color=0x008800)
-			embed.set_author(name='Minecraft Бот')
-			embed.set_thumbnail(url="https://d1u5p3l4wpay3k.cloudfront.net/minecraft_ru_gamepedia/b/bc/Wiki.png?version=26fd08a888d0d1a33fb2808ebc8678e9")
+			function = functions[arg]
+			embed = discord.Embed(title=strings['func.help.specific.title'] % arg, color=0x008800)
+			embed.set_author(name=strings['embed.author'])
+			embed.set_thumbnail(url=strings['embed.thumbnail'])
 			embed.add_field(name='`' + function.syntax + '`', value=function.desc, inline=True)
 			await client.send_message(message.channel, embed=embed)
 		else:
 			print('Unknown command.')
-			await client.send_message(message.channel, 'Я не знаю, что такое `' + prefixes[0] + ' ' + arg + '`!')
+			await client.send_message(message.channel, strings['func.help.specific.unknown'] % (prefixes[0], + arg))
 	else:
 		print('Too many arguments!')
-		await client.send_message(message.channel, 'Я твоя не понимать, ты говорить коротко!')
+		await client.send_message(message.channel, strings['func.help.overflow'])
 
 async def kill(message, args):
 	if len(args) > 0:
-		await client.send_message(message.channel, 'Ты чего, совсем обалдел? Не только пытаешься меня убить, но и грузишь всем этим своим бредом?')
+		await client.send_message(message.channel, strings['func.kill.overflow'])
 	else:
 		if 'Lord' in [str(role) for role in message.author.roles]:
-			await client.send_message(message.channel, 'Я вернусь! :thumbsup:')
+			await client.send_message(message.channel, strings['func.kill.success'])
+			print('Stopping bot...')
+			client.logout()
 			client.close()
 		else:
-			await client.send_message(message.channel, 'Да кто ты такой?')
+			await client.send_message(message.channel, strings['func.kill.failure'])
 # Functions end
+
+# Strings go here
+strings = {
+    'desc.none':'Ну, я не знаю, она что-то делает, но что... мне не сказали. Попробуй и узнаешь! :wink:',
+    'embed.author':'Minecraft Бот',
+    'embed.thumbnail':'https://d1u5p3l4wpay3k.cloudfront.net/minecraft_ru_gamepedia/b/bc/Wiki.png?version=26fd08a888d0d1a33fb2808ebc8678e9',
+    'func.help.overflow':'Я твоя не понимать, ты говорить коротко!',
+    'func.help.title':'Помощь по боту',
+    'func.help.specific.title':'Помощь по %s',
+    'func.help.specific.unknown':'Я не знаю, что такое `%s %s`!',
+    'func.kill.failure':'Да кто ты такой?',
+    'func.kill.overflow':'Ты чего, совсем обалдел? Не только пытаешься меня убить, но и грузишь всем этим своим бредом?',
+    'func.kill.success':'Я вернусь! :thumbsup:',
+    'func.none':'Что?',
+    'func.unknown':'Я не понимаю, чего ты от меня хочешь!',
+    'sdesc.none':'Не знаю...'
+}
+# Strings end
 
 # Commands go here
 prefixes = ['!bot']
-Command("help", help, syntax='!minecraft help [команда]', sdesc='Этот список или помощь по команде.', desc='Показывает список всех команд или подробное описание указаной команды (как то, что вы сейчас читаете).')
-Command("kill", kill, syntax='!minecraft kill', sdesc='Остановить бота.', desc='Останавливает бота. Доступно только @Owner.')
+Command("help", help, syntax='help [команда]', sdesc='Этот список или помощь по команде.', desc='Показывает список всех команд или подробное описание указаной команды (как то, что вы сейчас читаете).')
+Command("kill", kill, syntax='kill', sdesc='Остановить бота.', desc='Останавливает бота. Доступно только @Lord.')
 # Commands end
 
 client.run(token)

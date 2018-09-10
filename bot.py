@@ -83,36 +83,6 @@ async def kill(message, args):
 			await client.send_message(message.channel, strings['func']['kill']['failure'])
 # Functions end
 
-# Strings go here
-strings = {
-    'desc': {
-        'none': 'Ну, я не знаю, она что-то делает, но что... мне не сказали. Попробуй и узнаешь! :wink:'
-    },
-    'embed':{
-        'author': 'Minecraft Бот',
-        'thumbnail': 'https://d1u5p3l4wpay3k.cloudfront.net/minecraft_ru_gamepedia/b/bc/Wiki.png?version=26fd08a888d0d1a33fb2808ebc8678e9'
-    },
-    'func':{
-        'help':{
-            'overflow': 'Я твоя не понимать, ты говорить коротко!',
-            'title': 'Помощь по боту',
-            'specific.title': 'Помощь по %s',
-            'specific.unknown': 'Я не знаю, что такое `%s %s`!'
-        },
-        'kill':{
-            'failure': 'Да кто ты такой?',
-            'overflow': 'Ты чего, совсем обалдел? Не только пытаешься меня убить, но и грузишь всем этим своим бредом?',
-            'success': 'Я вернусь! :thumbsup:'
-        },
-        'none': 'Что?',
-        'unknown': 'Я не понимаю, чего ты от меня хочешь!'        
-    },
-    'sdesc':{
-        'none': 'Не знаю...'
-    }
-}
-# Strings end
-
 # Commands go here
 prefixes = ['!bot']
 Command("help", help, syntax='help [команда]', sdesc='Этот список или помощь по команде.', desc='Показывает список всех команд или подробное описание указаной команды (как то, что вы сейчас читаете).')

@@ -74,7 +74,7 @@ async def help(message, args):
 			arg = args[0]
 		print('Getting help for', arg + '.')
 		if arg in functions.keys():
-			function = function[arg]
+			function = functions[arg]
 			embed = discord.Embed(title=strings['func.help.specific.title'] % arg, color=0x008800)
 			embed.set_author(name=strings['embed.author'])
 			embed.set_thumbnail(url=strings['embed.thumbnail'])

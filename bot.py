@@ -1,19 +1,20 @@
 from const import *
 import discord
 import asyncio
+from start import log
 
 client = discord.Client()                              												# get client
 functions = {}                                          											# define the functions dict
 
 @client.event
 async def on_ready():                                   											# some logging
-	print('All set and ready!')
-	print('Bot logged in as', client.user.name, 'with id', client.user.id)
-	print('-----')
+	log('All set and ready!')
+	log('Bot logged in as', client.user.name, 'with id', client.user.id)
+	log('-----')
 
 @client.event
 async def on_message(message):
-	print(message.server, '/', message.channel, '/', message.author, 'wrote', message.content)
+	log(message.server, '/', message.channel, '/', message.author, 'wrote', message.content)
 	if any([message.content.startswith(i) for i in prefixes]):
 		text = message.content.lower()                      											# parse message
 		content = text.split()[1:]
@@ -45,7 +46,7 @@ class Command:
 # Functions go here
 async def help(message, args):
 	if len(args) == 0:
-		print('Listing commands.')
+		log('Listing commands.')
 		embed = discord.Embed(title='Помощь по боту', color=0x008800)
 		embed.set_author(name='Minecraft Бот')
 		embed.set_thumbnail(url="https://d1u5p3l4wpay3k.cloudfront.net/minecraft_ru_gamepedia/b/bc/Wiki.png?version=26fd08a888d0d1a33fb2808ebc8678e9")
@@ -57,7 +58,7 @@ async def help(message, args):
 			arg = args[1]
 		else:
 			arg = args[0]
-		print('Getting help for', arg + '.')
+		log('Getting help for', arg + '.')
 		if arg in functions.keys():
 			function = function[arg]
 			embed = discord.Embed(title='Помощь по ' + arg, color=0x008800)
@@ -66,10 +67,10 @@ async def help(message, args):
 			embed.add_field(name='`' + function.syntax + '`', value=function.desc, inline=True)
 			await client.send_message(message.channel, embed=embed)
 		else:
-			print('Unknown command.')
+			log('Unknown command.')
 			await client.send_message(message.channel, 'Я не знаю, что такое `' + prefixes[0] + ' ' + arg + '`!')
 	else:
-		print('Too many arguments!')
+		log('Too many arguments!')
 		await client.send_message(message.channel, 'Я твоя не понимать, ты говорить коротко!')
 
 async def kill(message, args):

@@ -1,5 +1,4 @@
 while True:
-    file = open('bot.py')
-    exec(file)
-    file.close()
+    with open('bot.py') as f:
+        exec(f)
     print('Restarting bot...')

@@ -74,13 +74,23 @@ async def help(message, args):
 		log('Too many arguments!')
 		await client.send_message(message.channel, strings.func.help.overflow)
 
+async def restart(message, args):
+	if len(args):
+		await client.send_message(message.channel, strings.func.restart.overflow)
+	else:
+		if 'Dev' in [str(role) for role in message.author.roles]:
+			await client.send_message(message.channel, strings.func.restart.success)
+			client.close()
+		else:
+			await client.send_message(message.channel, strings.func.restart.failure)
+
 async def kill(message, args):
 	if len(args):
 		await client.send_message(message.channel, strings.func.kill.overflow)
 	else:
-		if 'Lord' in [str(role) for role in message.author.roles]:
+		if 'Host' in [str(role) for role in message.author.roles]:
 			await client.send_message(message.channel, strings.func.kill.success)
-			client.close()
+			exit()
 		else:
 			await client.send_message(message.channel, strings.func.kill.failure)
 # Functions end
@@ -88,7 +98,7 @@ async def kill(message, args):
 # Commands go here
 prefixes = ['!bot']
 Command("help", help, syntax='help [команда]', sdesc='Этот список или помощь по команде.', desc='Показывает список всех команд или подробное описание указаной команды (как то, что вы сейчас читаете).')
-Command("kill", kill, syntax='!minecraft kill', sdesc='Перезапуск бота.', desc='Останавливает бота. Доступно только `@Lord`.')
+Command("restart", restart, syntax='!minecraft restart', sdesc='Перезапуск бота.', desc='Перезапускает бота. Доступно только `@Lord`.')
 # Commands end
 
 client.run(token)

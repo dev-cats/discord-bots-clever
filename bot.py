@@ -1,7 +1,9 @@
-from const import *
 import discord
 import asyncio
+
 from start import log
+from const import *
+from strings import strings
 
 client = discord.Client()                              												# get client
 functions = {}                                          											# define the functions dict

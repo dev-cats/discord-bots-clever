@@ -25,7 +25,7 @@ async def on_message(message):
 		await asyncio.sleep(1)            											# more logging
 		if len(content):
 			if content[0] in functions.keys():
-				await functions[content[0]].func(message, content[2:] if len(content) > 2 else [])  # call the function
+				await functions[content[0]].func(message, content[1:])  # call the function
 			else:
 				await client.send_message(message.channel, strings.func.unknown)
 		else:
@@ -61,7 +61,7 @@ async def help(message, args):
 			arg = args[0]
 		log('Getting help for', arg + '.')
 		if arg in functions.keys():
-			function = function[arg]
+			function = functions[arg]
 			embed = discord.Embed(title=strings.func.help.specific.title + arg, color=0x008800)
 			embed.set_author(name=strings.embed.author)
 			embed.set_thumbnail(url=strings.embed.thumbnail)
@@ -75,7 +75,7 @@ async def help(message, args):
 		await client.send_message(message.channel, strings.func.help.overflow)
 
 async def kill(message, args):
-	if len(args) > 0:
+	if len(args):
 		await client.send_message(message.channel, strings.func.kill.overflow)
 	else:
 		if 'Lord' in [str(role) for role in message.author.roles]:

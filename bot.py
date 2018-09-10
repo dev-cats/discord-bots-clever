@@ -88,7 +88,7 @@ async def kill(message, args):
 # Commands go here
 prefixes = ['!bot']
 Command("help", help, syntax='help [команда]', sdesc='Этот список или помощь по команде.', desc='Показывает список всех команд или подробное описание указаной команды (как то, что вы сейчас читаете).')
-Command("restart", restart, syntax='!minecraft restart', sdesc='Перезапуск бота.', desc='Перезапускает бота. Доступно только `@Owner`.')
+Command("kill", kill, syntax='!minecraft kill', sdesc='Перезапуск бота.', desc='Останавливает бота. Доступно только `@Lord`.')
 # Commands end
 
 client.run(token)

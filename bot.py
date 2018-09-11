@@ -32,17 +32,17 @@ async def on_message(message):
 			await client.send_message(message.channel, strings.func.none)
 
 class Command:
-	def __init__(self, name, func, syntax=None, sdesc=strings.sdesc.none, desc=strings.desc.none):
+	def __init__(self, name, syntax=None, sdesc=strings.sdesc.none, desc=strings.desc.none):
 		if name in functions.keys():																# check for repeating 
 			raise KeyError()
 		self.name = name
-		self.func = func
-		if syntax is None:
-			syntax = name
-		self.syntax = prefixes[0] + ' ' + name
+		self.syntax = prefixes[0] + syntax
 		self.sdesc = sdesc
 		self.desc = desc
 		functions[name] = self
+	
+	def __call__(self, *a, **kwa):
+		exec(name + '(' + str(', '.join(a) + [i + '=' + j for i, j in kwa]))
 
 # Functions go here
 async def help(message, args):
@@ -98,8 +98,8 @@ async def kill(message, args):
 # Commands go here
 prefixes = ['!bot']
 Command("help", help, syntax='help [команда]', sdesc='Этот список или помощь по команде.', desc='Показывает список всех команд или подробное описание указаной команды (как то, что вы сейчас читаете).')
-Command("restart", restart, syntax='!minecraft restart', sdesc='Перезапуск бота.', desc='Перезапускает бота. Доступно только `@Dev`.')
-Command("kill", kill, syntax='!minecraft kill', sdesc='Остановка бота.', desc='Останавливает бота. Доступно только `@Host`.')
+Command("restart", restart, syntax='restart', sdesc='Перезапуск бота.', desc='Перезапускает бота. Доступно только `@Dev`.')
+Command("kill", kill, syntax='kill', sdesc='Остановка бота.', desc='Останавливает бота. Доступно только `@Host`.')
 # Commands end
 
 client.run(token)

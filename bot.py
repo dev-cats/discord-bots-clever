@@ -6,7 +6,6 @@ from const import *
 from strings import strings
 
 client = discord.Client()                              												# get client
-functions = {}                                          											# define the functions dict
 
 @client.event
 async def on_ready():                                   											# some logging
@@ -24,17 +23,18 @@ async def on_message(message):
 		await client.send_typing(message.channel)
 		await asyncio.sleep(1)            											# more logging
 		if len(content):
-			if content[0] in functions.keys():
-				await functions[content[0]].func(message, content[1:])  # call the function
+			if content[0] in Command.functions.keys():
+				await Command.functions[content[0]].func(message, content[1:])  # call the function
 			else:
 				await client.send_message(message.channel, strings.func.unknown)
 		else:
 			await client.send_message(message.channel, strings.func.none)
 
 class Command:
+	functions = {}                                          											# define the functions dict
 	'''Defines a bot command.'''
 	def __init__(self, name, func, syntax=None, sdesc=strings.sdesc.none, desc=strings.desc.none):
-		if name in functions.keys():																# check for repeating 
+		if name in self.functions.keys():																# check for repeating 
 			raise KeyError()
 		self.name = name
 		self.func = func
@@ -43,7 +43,7 @@ class Command:
 		self.syntax = prefixes[0] + ' ' + name
 		self.sdesc = sdesc
 		self.desc = desc
-		functions[name] = self
+		self.functions[name] = self
 
 '''Prints help on all the commands.'''
 async def help(message, args):
@@ -52,8 +52,8 @@ async def help(message, args):
 		embed = discord.Embed(title=strings.func.help.title, color=0x008800)
 		embed.set_author(name=strings.embed.author)
 		embed.set_thumbnail(url=strings.embed.thumbnail)
-		for key in functions:
-			embed.add_field(name='`' + functions[key].syntax + '`', value=functions[key].sdesc, inline=True)
+		for key in Command.functions:
+			embed.add_field(name='`' + Command.functions[key].syntax + '`', value=Command.functions[key].sdesc, inline=True)
 		await client.send_message(message.channel, embed=embed)
 	elif len(args) == 1 or len(args) == 2 and args[0] in prefixes:
 		if len(args) == 2:
@@ -61,8 +61,8 @@ async def help(message, args):
 		else:
 			arg = args[0]
 		log('Getting help for', arg + '.')
-		if arg in functions.keys():
-			function = functions[arg]
+		if arg in Command.functions.keys():
+			function = Command.functions[arg]
 			embed = discord.Embed(title=strings.func.help.specific.title + arg, color=0x008800)
 			embed.set_author(name=strings.embed.author)
 			embed.set_thumbnail(url=strings.embed.thumbnail)

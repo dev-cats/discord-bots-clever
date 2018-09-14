@@ -49,15 +49,19 @@ class Command:
         self.desc = desc
         self.functions[name] = self
 
-def command(func, name=None, syntax=None, sdesc=strings.sdesc.none, desc=strings.desc.none):
-    if name is None:
-        name = func.__name__
-    if syntax is None:
-        syntax = name    
-    def wrapper(*a, **kwa):
-        func(*a, **kwa)
-    Command(name, wrapper, syntax, sdesc, desc)
-    return func
+def command(name=None, syntax=None, sdesc=strings.sdesc.none, desc=strings.desc.none):
+    print(name)
+    def decorator(func):
+        print(name)
+        if name is None:
+            name = func.__name__
+        if syntax is None:
+            syntax = name          
+        def wrapper(*a, **kwa):
+            func(*a, **kwa)
+        Command(name, wrapper, syntax, sdesc, desc)
+        return func
+    return decorator
 
 # Functions go here
 @command(syntax='help [команда]', sdesc='Этот список или помощь по команде.', desc='Показывает список всех команд или подробное описание указаной команды (как то, что вы сейчас читаете).')

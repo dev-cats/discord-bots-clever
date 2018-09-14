@@ -1,5 +1,6 @@
 from datetime import datetime as time
 
+'''Logs debug info.'''
 def log(*args, **kwargs):
     s = time.now().strftime('[%H:%M:%S]')
     print(s, *args, **kwargs)

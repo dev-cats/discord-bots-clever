@@ -32,6 +32,7 @@ async def on_message(message):
 			await client.send_message(message.channel, strings.func.none)
 
 class Command:
+	'''Defines a bot command.'''
 	def __init__(self, name, func, syntax=None, sdesc=strings.sdesc.none, desc=strings.desc.none):
 		if name in functions.keys():																# check for repeating 
 			raise KeyError()
@@ -44,7 +45,7 @@ class Command:
 		self.desc = desc
 		functions[name] = self
 
-# Functions go here
+'''Prints help on all the commands.'''
 async def help(message, args):
 	if len(args) == 0:
 		log('Listing commands.')
@@ -74,6 +75,7 @@ async def help(message, args):
 		log('Too many arguments!')
 		await client.send_message(message.channel, strings.func.help.overflow)
 
+'''Restarts the bot.'''
 async def restart(message, args):
 	if len(args):
 		await client.send_message(message.channel, strings.func.restart.overflow)
@@ -84,6 +86,7 @@ async def restart(message, args):
 		else:
 			await client.send_message(message.channel, strings.func.restart.failure)
 
+'''Stops the bot.'''
 async def kill(message, args):
 	if len(args):
 		await client.send_message(message.channel, strings.func.kill.overflow)
@@ -93,13 +96,10 @@ async def kill(message, args):
 			exit()
 		else:
 			await client.send_message(message.channel, strings.func.kill.failure)
-# Functions end
 
-# Commands go here
-prefixes = ['!bot']
 Command("help", help, syntax='help [команда]', sdesc='Этот список или помощь по команде.', desc='Показывает список всех команд или подробное описание указаной команды (как то, что вы сейчас читаете).')
 Command("restart", restart, syntax='restart', sdesc='Перезапуск бота.', desc='Перезапускает бота. Доступно только `@Dev`.')
 Command("kill", kill, syntax='kill', sdesc='Остановка бота.', desc='Останавливает бота. Доступно только `@Host`.')
-# Commands end
 
+prefixes = ['!bot']
 client.run(token)

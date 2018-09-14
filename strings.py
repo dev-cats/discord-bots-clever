@@ -1,4 +1,5 @@
 class TextNode:
+    '''Creates an instance of TextNode from a multi-level dictionary.'''
     def __init__(self, d):
         for i in d:
             if type(d[i]) == dict:

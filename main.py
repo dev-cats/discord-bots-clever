@@ -118,4 +118,4 @@ async def kill(message, args):
 
 # Commands go here
 prefixes = ['!bot']
-start(token)
+#start(token)

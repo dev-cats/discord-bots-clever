@@ -7,6 +7,12 @@ from strings import strings
 
 client = discord.Client()                              												# get client
 
+def start(t):
+	client.run(t)
+
+async def send(*args, **kwargs):
+	await client.send_message(*args, **kwargs)
+
 @client.event
 async def on_ready():                                   											# some logging
 	log('All set and ready!')
@@ -26,9 +32,9 @@ async def on_message(message):
 			if content[0] in Command.functions.keys():
 				await Command.functions[content[0]].func(message, content[1:])  # call the function
 			else:
-				await client.send_message(message.channel, strings.func.unknown)
+				await send(message.channel, strings.func.unknown)
 		else:
-			await client.send_message(message.channel, strings.func.none)
+			await send(message.channel, strings.func.none)
 
 class Command:
 	functions = {}                                          											# define the functions dict
@@ -54,7 +60,7 @@ async def help(message, args):
 		embed.set_thumbnail(url=strings.embed.thumbnail)
 		for key in Command.functions:
 			embed.add_field(name='`' + Command.functions[key].syntax + '`', value=Command.functions[key].sdesc, inline=True)
-		await client.send_message(message.channel, embed=embed)
+		await send(message.channel, embed=embed)
 	elif len(args) == 1 or len(args) == 2 and args[0] in prefixes:
 		if len(args) == 2:
 			arg = args[1]
@@ -67,39 +73,39 @@ async def help(message, args):
 			embed.set_author(name=strings.embed.author)
 			embed.set_thumbnail(url=strings.embed.thumbnail)
 			embed.add_field(name='`' + function.syntax + '`', value=function.desc, inline=True)
-			await client.send_message(message.channel, embed=embed)
+			await send(message.channel, embed=embed)
 		else:
 			log('Unknown command.')
-			await client.send_message(message.channel, strings.func.help.specific.unknown % (prefixes[0], arg))
+			await send(message.channel, strings.func.help.specific.unknown % (prefixes[0], arg))
 	else:
 		log('Too many arguments!')
-		await client.send_message(message.channel, strings.func.help.overflow)
+		await send(message.channel, strings.func.help.overflow)
 
 '''Restarts the bot.'''
 async def restart(message, args):
 	if len(args):
-		await client.send_message(message.channel, strings.func.restart.overflow)
+		await send(message.channel, strings.func.restart.overflow)
 	else:
 		if 'Dev' in [str(role) for role in message.author.roles]:
-			await client.send_message(message.channel, strings.func.restart.success)
+			await send(message.channel, strings.func.restart.success)
 			client.close()
 		else:
-			await client.send_message(message.channel, strings.func.restart.failure)
+			await send(message.channel, strings.func.restart.failure)
 
 '''Stops the bot.'''
 async def kill(message, args):
 	if len(args):
-		await client.send_message(message.channel, strings.func.kill.overflow)
+		await send(message.channel, strings.func.kill.overflow)
 	else:
 		if 'Host' in [str(role) for role in message.author.roles]:
-			await client.send_message(message.channel, strings.func.kill.success)
+			await send(message.channel, strings.func.kill.success)
 			exit()
 		else:
-			await client.send_message(message.channel, strings.func.kill.failure)
+			await send(message.channel, strings.func.kill.failure)
 
 Command("help", help, syntax='help [команда]', sdesc='Этот список или помощь по команде.', desc='Показывает список всех команд или подробное описание указаной команды (как то, что вы сейчас читаете).')
 Command("restart", restart, syntax='restart', sdesc='Перезапуск бота.', desc='Перезапускает бота. Доступно только `@Dev`.')
 Command("kill", kill, syntax='kill', sdesc='Остановка бота.', desc='Останавливает бота. Доступно только `@Host`.')
 
 prefixes = ['!bot']
-client.run(token)
+start(token)

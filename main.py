@@ -6,6 +6,7 @@ from const import *
 from strings import strings
 
 client = discord.Client()                              												# get client
+prefixes = ['!bot']
 
 def start(t):
     client.run(t)
@@ -50,16 +51,18 @@ class Command:
         self.functions[name] = self
 
 def command(name=None, syntax=None, sdesc=strings.sdesc.none, desc=strings.desc.none):
-    print(name)
     def decorator(func):
-        print(name)
         if name is None:
-            name = func.__name__
+            n = func.__name__
+        else:
+            n = name
         if syntax is None:
-            syntax = name          
+            s = n 
+        else:
+            s = syntax
         def wrapper(*a, **kwa):
             func(*a, **kwa)
-        Command(name, wrapper, syntax, sdesc, desc)
+        Command(n, wrapper, s, sdesc, desc)
         return func
     return decorator
 
@@ -121,5 +124,5 @@ async def kill(message, args):
 # Functions end
 
 # Commands go here
-prefixes = ['!bot']
+
 #start(token)

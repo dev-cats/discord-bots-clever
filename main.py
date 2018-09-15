@@ -67,8 +67,8 @@ def command(name=None, syntax=None, sdesc=strings.sdesc.none, desc=strings.desc.
     return decorator
 
 # Functions go here
-@command(syntax='help [команда]', sdesc='Этот список или помощь по команде.', desc='Показывает список всех команд или подробное описание указаной команды (как то, что вы сейчас читаете).')
-async def help(message, args):
+@command(name='help', syntax='help [команда]', sdesc='Этот список или помощь по команде.', desc='Показывает список всех команд или подробное описание указаной команды (как то, что вы сейчас читаете).')
+async def bot_help(message, args):
     '''Prints help on all the commands.'''
     if len(args) == 0:
         log('Listing commands.')

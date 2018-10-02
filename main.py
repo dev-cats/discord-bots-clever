@@ -121,8 +121,3 @@ async def kill(message, args):
             exit()
         else:
             await send(message.channel, strings.func.kill.failure)
-# Functions end
-
-# Commands go here
-
-#start(token)

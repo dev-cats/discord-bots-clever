@@ -9,7 +9,8 @@ client = discord.Client()                              												# get client
 prefixes = ['!bot']
 
 def start(t):
-    client.run(t)
+    while True:
+        client.run(t)
 
 async def send(*args, **kwargs):
     await client.send_message(*args, **kwargs)

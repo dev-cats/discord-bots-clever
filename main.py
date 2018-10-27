@@ -1,12 +1,17 @@
 import discord
 import asyncio
+from datetime import datetime as time
 
-from start import log
 from const import *
 from strings import strings
 
 client = discord.Client()                              												# get client
 prefixes = ['!bot']
+
+def log(*a, sep=' ', end='\n'):
+    '''Logs debug info.'''
+    s = time.now().strftime('[%H:%M:%S]')
+    print(s, *a, sep=sep, end=end)
 
 def start(t):
     while True:
@@ -29,7 +34,9 @@ async def on_message(message):
         content = text.split()[1:]
         await asyncio.sleep(0.2)                            										# make it feel natural
         await client.send_typing(message.channel)
-        await asyncio.sleep(1)            											# more logging
+        await asyncio.sleep(1)  # more logging
+        print(content, len(content))
+        print(Command.functions)
         if len(content):
             if content[0] in Command.functions.keys():
                 await Command.functions[content[0]].func(message, content[1:])  # call the function
@@ -61,9 +68,7 @@ def command(name=None, syntax=None, sdesc=strings.sdesc.none, desc=strings.desc.
             s = n 
         else:
             s = syntax
-        def wrapper(*a, **kwa):
-            func(*a, **kwa)
-        Command(n, wrapper, s, sdesc, desc)
+        Command(n, func, s, sdesc, desc)
         return func
     return decorator
 

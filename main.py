@@ -34,7 +34,7 @@ async def on_message(message):
         content = text.split()[1:]
         await asyncio.sleep(0.2)                            										# make it feel natural
         await client.send_typing(message.channel)
-        await asyncio.sleep(1)  # more logging
+        await asyncio.sleep(1)
         print(content, len(content))
         print(Command.functions)
         if len(content):
@@ -44,6 +44,25 @@ async def on_message(message):
                 await send(message.channel, strings.func.unknown)
         else:
             await send(message.channel, strings.func.none)
+
+@client.event
+async def on_message_edit(message):
+    log(message.server, '/', message.channel, '/', message.author, 'wrote', message.content)
+    if any([message.content.startswith(i) for i in prefixes]):
+        text = message.content.lower()                      											# parse message
+        content = text.split()[1:]
+        await asyncio.sleep(0.2)                            										# make it feel natural
+        await client.send_typing(message.channel)
+        await asyncio.sleep(1)
+        print(content, len(content))
+        print(Command.functions)
+        if len(content):
+            if content[0] in Command.functions.keys():
+                await Command.functions[content[0]].func(message, content[1:])  # call the function
+            else:
+                await send(message.channel, strings.func.unknown)
+        else:
+            await send(message.channel, strings.func.none)    
 
 class Command:
     '''Defines a bot command.'''

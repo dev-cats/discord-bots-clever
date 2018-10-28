@@ -27,7 +27,7 @@ async def on_ready():                                   											# some loggin
     log('-----')
 
 @client.event
-async def on_message(message):
+async def on_message(_, message):
     log(message.server, '/', message.channel, '/', message.author, 'wrote', message.content)
     if any([message.content.startswith(i) for i in prefixes]):
         text = message.content.lower()                      											# parse message
